@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Button, Link, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Box, Button, CircularProgress, Link, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import {  useNavigate } from 'react-router-dom';
+import { GlobleVariable } from '../../../Theme';
+import Theme from '../../../Theme';
+
 
 const Sign = () => {
     const theme = useTheme();
@@ -11,6 +14,8 @@ const Sign = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const [errors, setErrors] = useState({ username: '', email: '', password: '' });
     const [responseerror, setresponseerror] = useState("")
+    const [Loading, setLoading] = useState(false)
+
     const navigate = useNavigate()
 
     const handleChange = (e) => {
@@ -65,8 +70,9 @@ const Sign = () => {
 
         if (isValid) {
             try {
+                setLoading(true)
                 // Handle form submission (e.g., login API call)
-                const response = await axios.post("http://localhost:5000/signin", formData);
+                const response = await axios.post(`${GlobleVariable.Backend_url}/signin`, formData);
                 const user = response.data
                 if (response.data.messageType !== "success") {
                     setresponseerror(response.data.message)
@@ -78,8 +84,9 @@ const Sign = () => {
                     navigate("/home"); 
                 }
                 console.log('Form submitted:', formData);
+                setLoading(false)
             } catch {
-
+                setLoading(false)
             }
 
         }
@@ -94,6 +101,10 @@ const Sign = () => {
                     mt: isSmallScreen ? 2 : 8,
                     border: '1px solid black',
                     padding: isSmallScreen ? 2 : 3,
+                    backgroundColor:Theme.primary[10],
+                    color: Theme.white[100],
+                    boxShadow:"20px 20px 500px 30px rgba(1, 1, 122, 0.5)",
+                    borderRadius:"5%"
                 }}
             >
                 <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
@@ -109,6 +120,12 @@ const Sign = () => {
                         onChange={handleChange}
                         error={Boolean(errors.username)}
                         helperText={errors.username}
+                        InputProps={{
+                            style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                        }}
+                        InputLabelProps={{
+                            style: { color: Theme.white[100] }, 
+                        }}
                     />
                     <TextField
                         fullWidth
@@ -120,6 +137,12 @@ const Sign = () => {
                         onChange={handleChange}
                         error={Boolean(errors.email)}
                         helperText={errors.email}
+                        InputProps={{
+                            style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                        }}
+                        InputLabelProps={{
+                            style: { color: Theme.white[100] }, 
+                        }}
                     />
                     <TextField
                         fullWidth
@@ -131,6 +154,12 @@ const Sign = () => {
                         onChange={handleChange}
                         error={Boolean(errors.password)}
                         helperText={errors.password}
+                        InputProps={{
+                            style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                        }}
+                        InputLabelProps={{
+                            style: { color: Theme.white[100] }, 
+                        }}
                     />
                     <Typography variant='body1' color="red">
                         <div>
@@ -138,15 +167,14 @@ const Sign = () => {
                         </div>
 
                     </Typography>
-                    <Button variant="contained" type="submit" sx={{ mt: 2 }}>
-                        Create account
-
+                    <Button variant="contained" type="submit" sx={{ mt: 2 , color: Theme.white[100] }}>
+                        {Loading? <CircularProgress size={24} color="black"/> : "Create account"}
                     </Button>
                 </form>
-                <Box sx={{ mt: 2 }}> 
+                <Box sx={{ mt: 2, color: Theme.white[100]  }}> 
                    
                     <br />
-                    Not Registered Yet?
+                    Already Registered?   
                     <Link href="/login" color="primary">
                         LOG IN
                     </Link>

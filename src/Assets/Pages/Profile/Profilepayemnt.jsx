@@ -2,8 +2,9 @@ import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js"
 import axios from 'axios'
-import { getuser } from '../../Component/HomeComponents/HomeNavbar'
-import Sidebar from '../../Component/HomeComponents/Sidebar'
+import { getuser } from '../../Component/Navbar'
+import Sidebar from '../../Component/Profilesidebar'
+import Theme,{ GlobleVariable } from "../../../Theme"
 
 const Profilepayemnt = () => {
     const [ruppe, setruppe] = useState("1")
@@ -11,6 +12,7 @@ const Profilepayemnt = () => {
     const user = getuser();
 
     const userid = user.user._id
+    const Backend_url = GlobleVariable.Backend_url
 
     const handleRupeesChange = (e) => {
         let amount = e.target.value
@@ -24,7 +26,7 @@ const Profilepayemnt = () => {
 
         // Make API request to backend to initiate payment
         try {
-            const response = await axios.post('http://localhost:5000/checkout', {
+            const response = await axios.post(`${Backend_url}/checkout`, {
                 amount: ruppe, userid
             });
 
@@ -56,16 +58,16 @@ const Profilepayemnt = () => {
         <div style={{ margin: "20px" }}>
         <Grid container spacing={2}>
             {/* Sidebar */}
-            <Grid item xs={12} sm={3}>
+           
                 <Sidebar /> {/* Use the Sidebar component here */}
-            </Grid>
+            
             <Grid item xs={12} sm={9}>
-                <Typography variant='h4' style={{ fontFamily: 'Georgia, serif', textAlign: "Center" }}>
+                <Typography variant='h4' style={{ fontFamily: 'Georgia, serif', textAlign: "Center", color:Theme.white[100] }}>
                     BILLING
                 </Typography>
-                <Paper style={{ padding: '20px' }}>
+                <Paper style={{ padding: '20px', backgroundColor:Theme.primary[10], color:Theme.white[100] }}>
                     <form onSubmit={handlePayment}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} >
                             <Grid item xs={12} sm={6} md={4}>
                                 <TextField
                                     label="Enter your Amount Here"
@@ -75,6 +77,8 @@ const Profilepayemnt = () => {
                                     onChange={handleRupeesChange}
                                     inputMode="numeric"  // Allow only numeric input
                                     pattern="[0-9]*"  // Only allow digits
+                                    InputProps={{ style:{color:Theme.white[100], backgroundColor:Theme.primary[100]} }}
+                                    InputLabelProps={{ style:{color:Theme.white[100]} }}
                                 />
 
                                 {credit !== 0 ? (  // Render credit if it's not equal to 0
@@ -89,7 +93,7 @@ const Profilepayemnt = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={6} md={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button variant="contained" color="primary" type="submit" style={{ marginTop: '10px', maxHeight:"50xpx", width:"auto" }}>
+                                <Button variant="contained" color="primary" type="submit" style={{ marginTop: '10px', maxHeight:"50px", width:"auto" }}>
                                     Pay via Stripe
                                 </Button>
                             </Grid>

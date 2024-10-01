@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, ListItemText, Paper, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { getuser } from '../../Component/HomeComponents/HomeNavbar'
 import axios from 'axios';
-import Sidebar from '../../Component/HomeComponents/Sidebar';
+import { getuser } from '../../Component/Navbar';
+import { GlobleVariable } from '../../../Theme';
+import Profilesidebar from '../../Component/Profilesidebar';
+import Theme from "../../../Theme"
 
 const Profilehome = () => {
     const user = getuser();
     const [userdata, setUserData] = useState(null);
 
-
     useEffect(() => {
         const fetchdata = async () => {
             const userid = user.user._id
-            const response = await axios.get(`http://localhost:5000/getdata/${userid}`);
+
+            console.log(userid);
+            const response = await axios.get(`${GlobleVariable.Backend_url}/getdata/${userid}`);
             setUserData(response.data)
 
         }
@@ -21,24 +24,21 @@ const Profilehome = () => {
     }, [])
 
     return (
-        <div style={{ margin: '20px' }}>
+        <div style={{ margin: '20px', }}>
             <Grid container spacing={2}>
-                {/* Sidebar */}
-                <Grid item xs={12} md={3}>
-                    <Sidebar /> {/* Use the Sidebar component here */}
-                </Grid>
+                <Profilesidebar />
                 {/* Content */}
-                <Grid item xs={12} md={9}>
-                    <Typography variant='h4' style={{ fontFamily: 'Georgia, serif', textAlign: "center" }}>
+                <Grid item xs={12} md={9} >
+                    <Typography variant='h4' style={{ fontFamily: 'Georgia, serif', textAlign: "center",color:Theme.white[100] }}>
                         Personal Information
                     </Typography>
-                    <Paper style={{ padding: '20px' }}>
-                        <Grid container spacing={2} justifyContent="center" alignItems="center">
-                            <Grid item xs={12} md={3} style={{ textAlign: 'center' }}>
+                    <Paper style={{ padding: '20px', backgroundColor: Theme.primary[10], color:Theme.white[100] }}>
+                        <Grid container spacing={2} justifyContent="center" alignItems="center" >
+                            <Grid item xs={12} md={3} style={{ textAlign: 'center' }} >
                                 <AccountCircleIcon sx={{ height: "200px", width: "auto", color: "grey" }} />
                             </Grid>
-                            <Grid item xs={12} md={9}>
-                                <Grid container spacing={2}>
+                            <Grid item xs={12} md={9} >
+                                <Grid container spacing={2} sx={{ml:"2%"}}>
                                     <Grid item xs={12} md={8}>
                                         <ListItemText primary={`Name: ${userdata && userdata.user.username}`} />
                                         <ListItemText primary={`Email: ${userdata && userdata.user.email}`} />

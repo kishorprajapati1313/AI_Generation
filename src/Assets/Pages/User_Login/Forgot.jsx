@@ -2,8 +2,10 @@ import React, {  useState } from 'react';
 import { Box, TextField, Button, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Theme, { GlobleVariable } from '../../../Theme';
 
 const Forgot = () => {
+    const Backend_url = GlobleVariable.Backend_url;
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -18,7 +20,7 @@ const Forgot = () => {
         setLoading(true); // Start loading
 
         try {
-            const response = await axios.post("http://localhost:5000/getuser", { email });
+            const response = await axios.post(`${Backend_url}/getuser`, { email });
             // console.log(response.data);
 
             if (response.data.mtype !== "success") {
@@ -29,7 +31,7 @@ const Forgot = () => {
                 const randomCode = Math.floor(100000 + Math.random() * 900000);
                 // console.log(randomCode);
 
-                const emailResponse = await axios.post("http://localhost:5000/sendmail", { randomCode, email });
+                const emailResponse = await axios.post(`${Backend_url}/sendmail`, { randomCode, email });
 
                 if (emailResponse.data.mtype === "success") {
                     setStep(2);
@@ -51,7 +53,7 @@ const Forgot = () => {
         setLoading(true); // Start loading
 
         try {
-            const response = await axios.post("http://localhost:5000/codecheck", { code, email });
+            const response = await axios.post(`${Backend_url}/codecheck`, { code, email });
             // console.log(response.data);
 
             const responseData = response.data;
@@ -79,7 +81,7 @@ const Forgot = () => {
         setLoading(true); // Start loading
 
         try {
-            const response = await axios.post("http://localhost:5000/updatepass", {newPassword, email})
+            const response = await axios.post(`${Backend_url}/updatepass`, {newPassword, email})
             // console.log(response.data)
             if(response.data.mtype !== "success"){
                 setError(response.data.message);
@@ -94,8 +96,13 @@ const Forgot = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="75vh" >
-            <Box p={3} border="1px solid black">
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="75vh">
+            <Box p={3} border="1px solid black"
+            sx={{backgroundColor:Theme.primary[10],
+                color: Theme.white[100],
+                boxShadow:"20px 20px 500px 30px rgba(1, 1, 122, 0.5)",
+                borderRadius:"5%"}}
+            >
                 {step === 1 && (
                     <form onSubmit={handleSubmitEmail} >
                         <Typography variant="h5" gutterBottom textAlign={"center"}>
@@ -114,6 +121,12 @@ const Forgot = () => {
                             margin="normal"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            InputProps={{
+                                style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                            }}
+                            InputLabelProps={{
+                                style: { color: Theme.white[100] }, 
+                            }}
                         />
                         <Button variant="contained" color="primary" type="submit" disabled={loading}>
                             {loading ? <CircularProgress size={24} /> : "Next"}
@@ -138,6 +151,12 @@ const Forgot = () => {
                             margin="normal"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
+                            InputProps={{
+                                style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                            }}
+                            InputLabelProps={{
+                                style: { color: Theme.white[100] }, 
+                            }}
                         />
                         <Button variant="contained" color="primary" type="submit" disabled={loading}>
                             {loading ? <CircularProgress size={24} /> : "Verify"}
@@ -162,6 +181,12 @@ const Forgot = () => {
                             margin="normal"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
+                            InputProps={{
+                                style: { color: Theme.white[100], backgroundColor:Theme.primary[100] }, 
+                            }}
+                            InputLabelProps={{
+                                style: { color: Theme.white[100] }, 
+                            }}
                         />
                         <Button variant="contained" color="primary" type="submit" disabled={loading}>
                             {loading ? <CircularProgress size={24} /> : "Update Password"}

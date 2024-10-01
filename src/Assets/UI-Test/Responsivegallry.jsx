@@ -63,11 +63,12 @@ const ResponsiveGallery = () => {
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
                     height: `${Math.floor(Math.random() * 200) + 200}px`,  // Random height between 200px and 400px
-                    transition: 'filter 0.3s ease, box-shadow 0.3s ease',  // Smooth transition for filter and shadow
+                    transition: 'filter 0.3s ease, box-shadow 0.3s ease, transfer 0.6s ease',  // Smooth transition for filter and shadow
                     '&:hover': {
                       filter: 'none',  // Remove blur and grayscale on hover
                       boxShadow: '0 0 80px 2px rgba(255, 0, 1000, 0.5)',  // Red glow on hover
-
+                      transform: 'scale(1.08)',
+                      gap: '10px'
                     },
                   }}
                 />
