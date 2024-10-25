@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <Box sx={{ backgroundColor: Theme.primary[100], backgroundSize: "cover", width: "100%", border:"1px solid black", margin:"-8px auto" }}>
+      <Box sx={{ backgroundColor: Theme.primary[100], backgroundSize: "cover", width: "100%", border:"1px solid black" }}>
 
         <Approute />
         <Footer />
