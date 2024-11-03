@@ -63,6 +63,7 @@ const Navbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: 'linear-gradient(135deg, rgba(255, 55, 255, 0.1), rgba(55, 55, 250, 0.1))', borderRadius: '100px' }}>
+        {/* <Link to="/Test">Hello</Link> */}
         <Toolbar>
           {userData ?
             <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleSidebar(true)}>
@@ -74,6 +75,10 @@ const Navbar = () => {
           </Typography>
 
           <IconButton variant="h6" sx={{ cursor: "pointer", fontSize: "40px", color: Theme.white[100] }} component={Link} to="/home">
+            <HomeOutlinedIcon sx={{ fontSize: "30px" }} />
+          </IconButton>
+
+          <IconButton variant="h6" sx={{ cursor: "pointer", fontSize: "40px", color: "red" }} component={Link} to="/test_gen">
             <HomeOutlinedIcon sx={{ fontSize: "30px" }} />
           </IconButton>
 

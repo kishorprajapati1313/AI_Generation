@@ -139,7 +139,7 @@ const Imagegen = () => {
                             marginBottom: '8px',
                             '& .MuiOutlinedInput-root': {
                                 '& fieldset': {
-                                    borderColor: 'black',
+                                    borderColor: 'white',
                                     borderRadius: 10
                                 },
                                 '&:hover fieldset': {
@@ -171,7 +171,7 @@ const Imagegen = () => {
                             backgroundColor: 'darkviolet',
                             color: 'white',
                             '&:hover': {
-                                boxShadow: '0 0 10px 4px purple',
+                                boxShadow: '0 0 100px 4px purple',
                                 backgroundColor: 'darkviolet',
                             },
                         }}

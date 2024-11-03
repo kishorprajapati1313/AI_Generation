@@ -13,6 +13,9 @@ import Videohistroy from './Assets/Pages/Profile/Videohistroy.jsx'
 import Imagehistory from './Assets/Pages/Profile/Imagehistory.jsx'
 import Imagegen from './Assets/Pages/Imagegen.jsx'
 import Videogen from './Assets/Pages/Videogen.jsx'
+import Testvideogen from './Assets/Pages/Testvideogen.jsx'
+import Skyboxgen from './Assets/Pages/Skyboxgen.jsx'
+import { Test } from './CSS/Test.jsx'
 
 
 export const Approute = () => {
@@ -39,6 +42,12 @@ export const Approute = () => {
           {/* ------------------------------ Genartion Paths ------------------------------------ */}
           <Route path="/Image_generation" element={<Imagegen />} />
           <Route path="/Video_generation" element={<Videogen />} />
+          <Route path="/Skybox_generation" element={<Skyboxgen />} />
+          <Route path="/test_gen" element={<Testvideogen />} />
+
+
+          {/* <Route path="/Test" element={<Test />} /> */}
+
 
 
           {/* <Route path="/" component={About} /> */}
