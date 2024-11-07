@@ -78,9 +78,9 @@ const Navbar = () => {
             <HomeOutlinedIcon sx={{ fontSize: "30px" }} />
           </IconButton>
 
-          <IconButton variant="h6" sx={{ cursor: "pointer", fontSize: "40px", color: "red" }} component={Link} to="/test_gen">
+          {/* <IconButton variant="h6" sx={{ cursor: "pointer", fontSize: "40px", color: "red" }} component={Link} to="/test_gen">
             <HomeOutlinedIcon sx={{ fontSize: "30px" }} />
-          </IconButton>
+          </IconButton> */}
 
           {userData ? (
             <>

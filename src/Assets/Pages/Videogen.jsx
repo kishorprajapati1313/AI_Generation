@@ -79,6 +79,17 @@ const Videogen = () => {
         setLoading(true);
         setErrorMessage('');
         setVideoUrl('');
+
+        const checkcredit = await axios.post(`${Backend_url}/checkcredit`, userdata)
+            if (checkcredit.data.mtype === "warning") {
+                console.log("error")
+                setError("Insficiant Credits")
+                setLoading(false)
+                return 0
+            } else if (checkcredit.data.mtype === "fail") {
+                setError("Please Login First")
+                return 0
+            }
         
         const data = new FormData();
         data.append('image', inputFile);
@@ -128,11 +139,13 @@ const Videogen = () => {
                 if (errors && errors.length > 0) {
                     const errorMessage = errors[0]; // Take the first error message
                     const truncatedErrorMessage = errorMessage.length > 50 ? errorMessage.slice(0, 50) + '...' : errorMessage;
-                    currentindex += 1;
-                    apiKey = apiget(currentindex);
-                    handleSubmit()
+                    // currentindex += 1;
+                    // apiKey = apiget(currentindex);
+                    // handleSubmit()
+                    setErrorMessage(truncatedErrorMessage);
+                    setLoading(false);
+
                     return;
-                    // setErrorMessage(truncatedErrorMessage);
                 } else {
                     setErrorMessage(`Error: ${name}`);
                 }
@@ -187,105 +200,112 @@ const Videogen = () => {
     }, [generatedId]);
 
     return (
-        <Box sx={{ backgroundColor: Theme.primary[100], width: "100%" }}>
-            <Box sx={{ padding: '10px', maxWidth: '700px', margin: '0 auto', marginTop: "0" }}>
-                <Typography textAlign="center" variant="h5"><h1  style={{ color:Theme.white[100]}}>Video Generator</h1> </Typography>
-
-                {/* Error message display */}
+        <Box sx={{
+            background: `linear-gradient(135deg, ${Theme.primary[10]} 0%, ${Theme.primary[100]} 100%)`,
+            // width: "100%", 
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0px 10px 20px rgba(0,0,0,0.3)',
+            overflow: 'hidden',
+            position: 'relative',
+            color: Theme.white[100],
+        }}>
+            <Box sx={{ maxWidth: '700px', margin: '0 auto' }}>
+                <Typography variant="h4" sx={{
+                    color: Theme.secondary[100], 
+                    fontWeight: 'bold',
+                    textShadow: '0px 4px 10px rgba(113, 163, 193, 0.5)',
+                    textAlign: 'center'
+                }}>
+                    Video Generator
+                </Typography>
                 {errorMessage && (
-                    <Typography color="red" fontWeight="bold">
+                    <Typography color="error" sx={{ marginTop: '10px', textAlign: 'center' }}>
                         {errorMessage}
                     </Typography>
                 )}
-                <br />
-                {/* Form for file upload */}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} style={{ textAlign: 'center', marginTop: '30px' }}>
                     <input
                         type="file"
                         id="file-upload"
-                        style={{ display: 'none' }} // Hide the file input
+                        style={{ display: 'none' }}
                         accept="image/jpeg, image/png"
                         onChange={handleChange}
                     />
-
-                    {/* Button as label for the file input */}
-                    <Button
-                        component="label"
-                        htmlFor="file-upload"
-                        sx={{
+                    <label htmlFor="file-upload">
+                        <Box sx={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '10px',
                             backgroundColor: Theme.primary[100],
-                            padding: '40px 80px',
-                            borderRadius: '50px',
-                            border: "5px dashed #007bff",
-                            color: 'green',
-                            fontSize: "20px",
-                            fontWeight: "bold",
+                            border: `2px dashed ${Theme.secondary[100]}`,
+                            padding: '20px 30px',
+                            borderRadius: '10px',
+                            color: Theme.white[100],
+                            fontSize: '18px',
+                            fontWeight: 'bold',
                             cursor: 'pointer',
-                            transition: 'background-color 0.3s, box-shadow 0.3s',
+                            transition: 'all 0.4s ease',
                             "&:hover": {
-                                border: "4px dashed grey",
-                                borderRadius: '25px',
-                            }
-                        }}
-                        onChange={handleChange}
-                    >
-                        <div>
-                            < AddPhotoAlternateOutlinedIcon sx={{ fontSize: "50px", marginLeft: "50px" }} /> <br />
-                            Upload Image
-                            {/* Display filename under the upload button */}
-                            {fileName && (
-                                <Typography sx={{ fontSize: '14px', marginTop: '10px', color: Theme.white[100] }}>
-                                    {fileName}
-                                </Typography>
-                            )}
-                        </div>
-                    </Button>
-
-                    {/* Generate Button */}
+                                transform: 'scale(1.1)',
+                                background: `linear-gradient(135deg, ${Theme.secondary[100]} 0%, ${Theme.primary[10]} 100%)`,
+                                color: Theme.white[100]
+                            },
+                        }}>
+                            <AddPhotoAlternateOutlinedIcon sx={{ fontSize: "40px", color: Theme.secondary[100] }} />
+                            {fileName || "Upload Image"}
+                        </Box>
+                    </label>
                     <Button
                         type="submit"
                         disabled={loading}
                         sx={{
-                            marginLeft: '200px',
-                            padding: '10px 20px',
-                            borderRadius: '5px',
-                            border: 'none',
-                            backgroundColor: loading ? '#999' : 'green',
-                            color: '#fff',
+                            display: 'block',
+                            width: '100%',
+                            marginTop: '20px',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            background: `linear-gradient(45deg, ${Theme.secondary[100]}, ${Theme.primary[10]})`,
+                            color: Theme.white[100],
+                            fontWeight: 'bold',
+                            boxShadow: '0px 6px 15px rgba(113, 163, 193, 0.4)',
                             cursor: loading ? 'not-allowed' : 'pointer',
+                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                             "&:hover": {
-                                backgroundColor: loading ? '#999' : 'lightgreen',
-                                color: "black",
-                                boxShadow: "1px 1px 10px 5px green"
+                                transform: loading ? 'none' : 'scale(1.05)',
+                                boxShadow: loading ? 'none' : '0px 8px 20px rgba(113, 163, 193, 0.6)',
                             }
                         }}
                     >
                         {loading ? 'Generating...' : 'Generate'}
                     </Button>
                 </form>
-                <br />
-                <Box height={videoUrl ?"auto" :"250px"} >
-                    {loading && (
-                        <Skeleton variant="rectangular" width="100%" height={300} animation="wave" sx={{ backgroundColor: "darkgrey" }} />
+                <Box sx={{ height: videoUrl ? "auto" : "300px", marginTop: '30px' }}>
+                    {loading && !errorMessage && (
+                        <Skeleton variant="rectangular" width="100%" height={300} animation="wave" sx={{ backgroundColor: Theme.grey[100] }} />
                     )}
-
-                    {/* Video display */}
                     {videoUrl && (
-                        <Box marginTop={2}>
-                            <video controls width="100%">
+                        <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
+                            <video controls width="100%" style={{ borderRadius: '10px', boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)' }}>
                                 <source src={videoUrl} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                             <Button
-                                variant="contained"
-                                color="primary"
+                                sx={{
+                                    marginTop: '15px',
+                                    padding: '10px 20px',
+                                    borderRadius: '8px',
+                                    backgroundColor: Theme.secondary[100],
+                                    color: Theme.white[100],
+                                    fontWeight: 'bold',
+                                    "&:hover": { backgroundColor: Theme.primary[10] },
+                                }}
                                 onClick={() => {
                                     const a = document.createElement('a');
                                     a.href = videoUrl;
                                     a.download = 'video.mp4';
                                     a.click();
                                 }}
-                                sx={{ marginTop: '10px' }}
                             >
                                 Download Video
                             </Button>

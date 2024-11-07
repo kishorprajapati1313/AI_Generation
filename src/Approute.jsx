@@ -16,6 +16,7 @@ import Videogen from './Assets/Pages/Videogen.jsx'
 import Testvideogen from './Assets/Pages/Testvideogen.jsx'
 import Skyboxgen from './Assets/Pages/Skyboxgen.jsx'
 import { Test } from './CSS/Test.jsx'
+import VideoGenerator from './Assets/Pages/Testvideogen.jsx'
 
 
 export const Approute = () => {
@@ -43,7 +44,7 @@ export const Approute = () => {
           <Route path="/Image_generation" element={<Imagegen />} />
           <Route path="/Video_generation" element={<Videogen />} />
           <Route path="/Skybox_generation" element={<Skyboxgen />} />
-          <Route path="/test_gen" element={<Testvideogen />} />
+          <Route path="/test_gen" element={<VideoGenerator />} />
 
 
           {/* <Route path="/Test" element={<Test />} /> */}

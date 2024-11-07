@@ -232,10 +232,13 @@ const Imagegen = () => {
                             sx={{
                                 position: 'absolute',
                                 bottom: '10px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
                                 color: 'white',
-                                background: '#333333',
+                                backgroundColor: '#333333',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '6px 12px',
+                                borderRadius: 2,
+                                '&:hover': { backgroundColor: '#444444' },
                             }}
                             onClick={handleDownload}
                         >
